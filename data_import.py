@@ -24,7 +24,7 @@ def format_ts(timestamp):
     naive = datetime.fromisoformat(timestamp)
     local_dt = naive.astimezone(pytz.timezone("Asia/Manila"))
     utc_dt = local_dt.astimezone(pytz.UTC)
-    return datetime.timestamp(utc_dt)
+    return round(datetime.timestamp(utc_dt))
 
 
 def line_protocol(data):
