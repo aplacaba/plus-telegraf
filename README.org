@@ -1,0 +1,32 @@
+* Plus Telegraf
+
+Telegraf config for collecting and processing photon data.
+
+** Dependencies
+- Docker 24.0.2
+- Python 3.9
+- Telegraf 1.27
+
+** How to use
+
+Ensure the following environment variables are set:
+
+#+begin_src
+INFLUX_TOKEN=sample
+INFLUX_ORG=sample
+INFLUX_HOST=https://influx_host.com
+INFLUX_BUCKET=photon_test
+PHOTON_API=photon_api_url
+PHOTON_API_KEY=photon_api_key
+IMPORT_INTERVAL=1h
+#+end_src
+
+Then run the build script
+#+begin_src
+docker build . -t plus-telegraf
+docker run --rm --name pt plus-telegraf
+#+end_src
+
+** Telegraf Configuration
+
+See: https://docs.influxdata.com/telegraf/v1.27/
