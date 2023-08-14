@@ -5,8 +5,9 @@ import requests
 
 API_KEY = os.environ.get("PHOTON_API_KEY")
 API_ENDPOINT = os.environ.get("PHOTON_API")
-INTERVAL = "1h"
+INTERVAL = os.environ.get("IMPORT_INTERVAL")
 TIME_FORMAT = "%Y-%m-%d %R"
+NANOSECONDS = 1_000_000_000
 
 def run_import():
     now = datetime.utcnow()
@@ -24,7 +25,7 @@ def format_ts(timestamp):
     naive = datetime.fromisoformat(timestamp)
     local_dt = naive.astimezone(pytz.timezone("Asia/Manila"))
     utc_dt = local_dt.astimezone(pytz.UTC)
-    return round(datetime.timestamp(utc_dt))
+    return int(datetime.timestamp(utc_dt)) * NANOSECONDS
 
 
 def line_protocol(data):
