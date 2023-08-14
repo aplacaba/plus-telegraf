@@ -1,13 +1,14 @@
 from datetime import datetime, timedelta
 import os
+import sys
 import pytz
 import requests
 
 API_KEY = os.environ.get("PHOTON_API_KEY")
 API_ENDPOINT = os.environ.get("PHOTON_API")
-INTERVAL = os.environ.get("IMPORT_INTERVAL")
 TIME_FORMAT = "%Y-%m-%d %R"
 NANOSECONDS = 1_000_000_000
+INTERVAL = sys.argv[1]
 
 def run_import():
     now = datetime.utcnow()
@@ -28,8 +29,8 @@ def format_ts(timestamp):
     return int(datetime.timestamp(utc_dt)) * NANOSECONDS
 
 
-def line_protocol(data):
-    return "photon_data,plant_no={plant_no} energy={energy},irradiance={irradiance} {timestamp}".format(
+def hourly_line_protocol(data):
+    return "hourly_photon_data,plant_no={plant_no} energy={energy},irradiance={irradiance} {timestamp}".format(
         plant_no=data["plant_no"],
         energy=data["power"],
         irradiance=data["irradiance"],
@@ -37,10 +38,24 @@ def line_protocol(data):
     )
 
 
+def daily_line_protocol(data):
+    return "daily_photon_data,plant_no={plant_no} energy={energy},irradiance={irradiance} {timestamp}".format(
+        plant_no=data["plant_no"],
+        energy=data["energy"],
+        irradiance=data["irradiation"],
+        timestamp=format_ts(data["log_timestamp"])
+    )
+
+
 def main():
     result = run_import()
-    filtered = filter(lambda x: x.get("power") is not None, result["data"])
-    print("\n".join(list(map(line_protocol, filtered))))
+
+    if INTERVAL == "1h":
+        filtered = filter(lambda x: x.get("power") is not None, result["data"])
+        print("\n".join(list(map(hourly_line_protocol, filtered))))
+
+    elif INTERVAL == "1d":
+        print("\n".join(list(map(daily_line_protocol, result["data"]))))
 
 
 if __name__ == "__main__":
