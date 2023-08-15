@@ -23,7 +23,7 @@ pipeline {
 
         stage('deploy to ecs') {
             steps {
-                sh "aws ecs update-service --cluster plusgen --service plus-telegraf --force-new-deployment"
+                sh "aws ecs update-service --cluster plusgen --service prism-telegraf --force-new-deployment"
             }
         }
     }
