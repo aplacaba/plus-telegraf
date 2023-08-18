@@ -19,6 +19,7 @@ INFLUX_BUCKET=photon_test
 PHOTON_API=photon_api_url
 PHOTON_API_KEY=photon_api_key
 IMPORT_INTERVAL=1h
+TZ=preferred_timezone
 #+end_src
 
 Then run the build script
