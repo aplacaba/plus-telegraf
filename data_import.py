@@ -23,10 +23,7 @@ def run_import():
 
 
 def format_ts(timestamp):
-    naive = datetime.fromisoformat(timestamp)
-    local_dt = naive.astimezone(pytz.timezone("Asia/Manila"))
-    utc_dt = local_dt.astimezone(pytz.UTC)
-    return int(datetime.timestamp(utc_dt)) * NANOSECONDS
+    return int(datetime.fromisoformat(timestamp).timestamp()) * NANOSECONDS
 
 
 def hourly_line_protocol(data):
