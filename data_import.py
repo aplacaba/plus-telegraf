@@ -48,7 +48,7 @@ def output_kw_line_protocol(data):
     return "photon_output_kw,inverter_id={inverter_id} output_kw={output_kw} {timestamp}".format(
         inverter_id=data["device_no"],
         output_kw=data["output_kw"],
-        timestamp=format_tr(data["log_timestamp"])
+        timestamp=format_ts(data["log_timestamp"])
     )
 
 
