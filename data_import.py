@@ -44,6 +44,14 @@ def daily_line_protocol(data):
     )
 
 
+def output_kw_line_protocol(data):
+    return "photon_output_kw,inverter_id={inverter_id} output_kw={output_kw} {timestamp}".format(
+        inverter_id=data["device_no"],
+        output_kw=data["output_kw"],
+        timestamp=format_tr(data["log_timestamp"])
+    )
+
+
 def main():
     result = run_import()
 
@@ -53,6 +61,9 @@ def main():
 
     elif INTERVAL == "1d":
         print("\n".join(list(map(daily_line_protocol, result["data"]))))
+
+    elif INTERVAL == "15m":
+        print("\n".join(list(map(output_kw_line_protocol, result["data"]))))
 
 
 if __name__ == "__main__":
