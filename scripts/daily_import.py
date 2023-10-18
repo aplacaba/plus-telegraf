@@ -15,7 +15,8 @@ def line_protocol(data):
     
 def main():
     photon = PhotonImporter(API_ENDPOINT)
-    params = time_params()
+    coverage = 1 
+    params = time_params(coverage)
     result = photon.execute(params["start"], params["end"], INTERVAL)
     print("\n".join(list(map(line_protocol, result["data"]))))
 
