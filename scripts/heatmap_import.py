@@ -15,7 +15,7 @@ def line_protocol(data):
 
 def main():
     photon = PhotonImporter(API_ENDPOINT)
-    params = time_params()
+    params = time_params(2)
     result = photon.execute(params["start"], params["end"], INTERVAL)
     filtered = filter(lambda x: x.get("output_kw") is not None, result["data"])
     print("\n".join(list(map(line_protocol, filtered))))
